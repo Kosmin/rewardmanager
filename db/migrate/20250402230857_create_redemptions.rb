@@ -9,6 +9,6 @@ class CreateRedemptions < ActiveRecord::Migration[8.0]
     end
 
     # Ensure one redemption per user
-    add_index :redemptions, [ :user_id, :reward_id ], unique: true
+    add_index :redemptions, [ :user_id, :reward_id ], unique: true, where: "post_id IS NOT NULL"
   end
 end

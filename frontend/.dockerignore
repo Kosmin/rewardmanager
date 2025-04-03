@@ -48,6 +48,3 @@
 README.md
 *.md
 
-# Ignore frontend when building the back-end image
-/frontend
-

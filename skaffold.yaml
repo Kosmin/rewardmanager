@@ -6,10 +6,16 @@ build:
       context: .
       docker:
         dockerfile: Dockerfile
+    - image: web-frontend
+      context: ./frontend
+      docker:
+        dockerfile: frontend/Dockerfile.frontend
 manifests:
   rawYaml:
-    - k8s/deployment.yml
-    - k8s/service.yml
+    - k8s/backend.yml
+    - k8s/backend-service.yml
+    - k8s/web-frontend.yml
+    - k8s/web-frontend-service.yml
     - k8s/mysql.yml
 deploy:
   kubectl: {}
@@ -18,6 +24,10 @@ portForward:
     resourceName: rails-service
     port: 3000
     localPort: 3000
+  - resourceType: service
+    resourceName: web-frontend-service
+    port: 4000
+    localPort: 4000
   - resourceType: service
     resourceName: db
     port: 3306

@@ -5,6 +5,8 @@ class CreateUsers < ActiveRecord::Migration[8.0]
       t.string :password, null: false
       t.integer :points_balance, null: false, default: 0
       t.boolean :admin, null: false, default: false
+      t.integer :redemptions_count, null: false, default: 0
+      t.integer :rewards_count, null: false, default: 0
 
       t.timestamps
     end
