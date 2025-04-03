@@ -1,0 +1,24 @@
+apiVersion: skaffold/v4beta6
+kind: Config
+build:
+  artifacts:
+    - image: rails-app  # Matches Kamal’s default image name
+      context: .
+      docker:
+        dockerfile: Dockerfile
+manifests:
+  rawYaml:
+    - k8s/deployment.yml
+    - k8s/service.yml
+    - k8s/mysql.yml
+deploy:
+  kubectl: {}
+portForward:
+  - resourceType: service
+    resourceName: rails-service
+    port: 3000
+    localPort: 3000
+  - resourceType: service
+    resourceName: db
+    port: 3306
+    localPort: 3306  # Forward MySQL to localhost:3306

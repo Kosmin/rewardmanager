@@ -1,0 +1,63 @@
+#############################################
+# Initial Architecture doc, subject to change
+#############################################
+
+
+REQUIREMENTS:
+-------------
+- View their current reward points balance.
+- Browse available rewards.
+- Redeem rewards using their points.
+- See a history of their reward redemptions.
+
+Implicit Requirements (script or UI)
+-------------------------------------
+* user sign in/up/out
+* (script or UI) admin panel to add/remove rewards
+* (script or UI) admin panel to reset/add points to users
+
+SCHEMA
+--------
+- User
+  email - unique, indexed
+  password
+  points_balance - not null, default 0
+  admin - not null, default false
+- Rewards
+  name - unique, not null, indexed
+  description
+  price - not null, default 0
+  expires_at
+- Redemptions
+  User
+  Reward - null if reward is deleted or expired
+  data
+    - data of redeemed reward, i.e. price, name, description, for historic purposes if Reward is deleted and we need to access the historic data
+    - can be later moved into separate table if needed
+    - used for history page
+  unique(user,reward) - ensure the same user cannot claim the same reward multiple times
+
+Required Pages
+--------------
+- dashboard/home
+  - list of rewards & prices
+  - can redeem rewards directly
+  - shows points balance
+- history
+  - list historic redemptions
+
+Optional Pages:
+--------------
+- User admin
+  - change email/password
+  - delete account
+- Reward admin
+  - add/remove points for users
+  - add/remove rewards
+
+Potential issues:
+-----------------
+- deleted reward would delete history
+- redeem rewards
+  - race condition as points get to 0 => need transaction & pessimistic row lock, since just ActiveRecord::Transaction doesn't entirely eliminate concurrency
+  - race condition when reward expires or is deleted
