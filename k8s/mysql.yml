@@ -1,40 +1,81 @@
-apiVersion: apps/v1
-kind: Deployment
+---
+# PersistentVolume to provide storage for MySQL
+apiVersion: v1
+kind: PersistentVolume
 metadata:
-  name: db
+  name: mysql-pv
+  labels:
+    app: mysql
 spec:
+  capacity:
+    storage: 1Gi  # Adjust size as needed
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain  # Keeps data even if PVC is deleted
+  storageClassName: standard  # Use your cluster’s default storage class (e.g., Minikube uses 'standard')
+  hostPath:  # For Minikube/local dev; replace with cloud-specific storage in production
+    path: /mnt/mysql-data  # Directory on the host; ensure it exists or use dynamic provisioning
+---
+# PersistentVolumeClaim to request storage
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi  # Matches PV capacity
+  storageClassName: standard
+  selector:
+    matchLabels:
+      app: mysql  # Matches the PV
+---
+# StatefulSet for MySQL
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql
+spec:
+  serviceName: db  # Matches the Service name below
   replicas: 1
   selector:
     matchLabels:
-      app: db
+      app: mysql
   template:
     metadata:
       labels:
-        app: db
+        app: mysql
     spec:
       containers:
       - name: mysql
-        image: mysql:8.0
+        image: mysql:8.0  # Matches your original
         env:
         - name: MYSQL_ROOT_PASSWORD
-          value: "password"
+          value: "password"  # Matches your original
+        - name: MYSQL_DATABASE
+          value: "rails_app_development"  # Consistent with previous example; adjust if needed
         ports:
         - containerPort: 3306
+          name: mysql
         volumeMounts:
         - name: mysql-data
-          mountPath: /var/lib/mysql
+          mountPath: /var/lib/mysql  # MySQL’s data directory
       volumes:
       - name: mysql-data
-        emptyDir: {}  # For local dev; use persistent volume in production
+        persistentVolumeClaim:
+          claimName: mysql-pvc
 ---
+# Service to expose MySQL
 apiVersion: v1
 kind: Service
 metadata:
-  name: db
+  name: db  # Matches your original and portForward in skaffold.yaml
 spec:
-  selector:
-    app: db
   ports:
-    - protocol: TCP
-      port: 3306
-      targetPort: 3306
+  - port: 3306
+    targetPort: 3306
+    protocol: TCP
+  selector:
+    app: mysql

@@ -6,6 +6,15 @@ build:
       context: .
       docker:
         dockerfile: Dockerfile
+      sync:
+        manual:
+          # Sync Ruby files (models, controllers, etc.) to the container without redeployment
+          - src: 'app/**/*.rb'
+            dest: app  # Syncs to /rails/app
+          - src: 'lib/**/*.rb'
+            dest: lib  # Syncs to /rails/lib
+          - src: 'db/**/*.rb'
+            dest: ./db
     - image: web-frontend
       context: ./frontend
       docker:
