@@ -9,6 +9,14 @@
 #   end
 #
 
+# Create admin user
+User.create(
+  email: 'admin@test.com',
+  password: 'password',
+  points_balance: 10000,
+  admin: true,
+)
+
 3.times do |i|
   User.create(
     email: "test_#{i+1}@test.com",

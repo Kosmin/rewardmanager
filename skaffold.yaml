@@ -22,11 +22,15 @@ build:
       sync:
         manual:
           # Sync JS files that are updated at runtime, to the container without redeployment
-          - src: 'frontend/app/**/*.js'
-            dest: frontend/app  # Syncs to /frontend/src
+          - src: 'app/**/*.js'
+            dest: app
           # Same for typescript files
-          - src: 'frontend/app/**/*.ts'
-            dest: frontend/app  # Syncs to /frontend/src
+          - src: 'app/**/*.ts'
+            dest: app
+          - src: 'lib/**/*.js'
+            dest: lib
+          - src: 'lib/**/*.ts'
+            dest: lib
 manifests:
   rawYaml:
     - k8s/backend.yml

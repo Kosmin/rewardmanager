@@ -12,4 +12,12 @@ Rails.application.routes.draw do
   Rails.application.routes.draw do
     devise_for :users, controllers: { sessions: "users/sessions", registrations: "users/registrations" }
   end
+
+  # Mount graphliql for development
+  if Rails.env.development?
+    mount GraphiQL::Rails::Engine, at: '/graphiql', graphql_path: '/graphql'
+  end
+
+  # Mount graphql controller
+  post '/graphql', to: 'graphql#execute'
 end

@@ -131,6 +131,8 @@ GEM
       raabro (~> 1.4)
     globalid (1.2.1)
       activesupport (>= 6.1)
+    graphiql-rails (1.10.4)
+      railties
     graphql (2.5.0)
       base64
       fiber-storage
@@ -389,6 +391,7 @@ DEPENDENCIES
   devise-jwt
   factory_bot_rails
   faker
+  graphiql-rails
   graphql
   kamal
   mysql2 (~> 0.5)

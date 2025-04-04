@@ -1,5 +1,5 @@
 import { Geist, Geist_Mono } from "next/font/google";
-import { CacheProvider } from '@emotion/react';
+import EmotionCacheProvider from './EmotionCacheProvider';
 import createCache from '@emotion/cache';
 import "./globals.css";
 
@@ -26,7 +26,7 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <CacheProvider value={cache}>{children}</CacheProvider>
+        <EmotionCacheProvider>{children}</EmotionCacheProvider>
       </body>
     </html>
   );
