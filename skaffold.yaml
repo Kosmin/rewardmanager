@@ -19,6 +19,14 @@ build:
       context: ./frontend
       docker:
         dockerfile: frontend/Dockerfile.frontend
+      sync:
+        manual:
+          # Sync JS files that are updated at runtime, to the container without redeployment
+          - src: 'frontend/app/**/*.js'
+            dest: frontend/app  # Syncs to /frontend/src
+          # Same for typescript files
+          - src: 'frontend/app/**/*.ts'
+            dest: frontend/app  # Syncs to /frontend/src
 manifests:
   rawYaml:
     - k8s/backend.yml

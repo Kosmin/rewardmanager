@@ -96,5 +96,13 @@ RSpec.describe Redemption, type: :model do
         expect(redemption.data).to eq(reward.to_json)
       end
     end
+
+    describe 'before_commit :validate_reward_presence, on: :create' do
+      let(:user) { create(:user) }
+      it 'aborts if reward is blank' do
+        expect(user.redeem!(nil)).to be_nil
+        expect(user.errors.full_messages).to include("Cannot redeem reward: reward is blank")
+      end
+    end
   end
 end
