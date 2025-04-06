@@ -1,6 +1,39 @@
 # README - RewardManager
 
-## Full Local Setup
+## Assignment Requirements:
+Implement RESTful endpoints for the following:
+- Retrieve a user’s current points balance
+- Get a list of available rewards
+- Allow users to redeem a reward
+- Retrieve a user’s redemption history
+
+## Bonus Features:
+_given the extra time, I decided to spice up my solution a little bit. Hopefully it's not an issue_
+
+- UI (fully functioning) - using `NextJS`, `React`, `Redux`, `Redux Sagas`, `Redux & NextJS Routing`
+- Orchestration - using `Docker`, `Kubernetes` and `Skaffold` (for local dev)
+- User Auth (sign-in, sign-up and sign out) - using `Devise` and `Devise-JWT`
+- Persistent front-end User Auth - via `localstorage` caching of the user's JWT token
+- GraphiQL Admin - implemented a GraphQL API and used GraphiQL to allow UI Admin operations (such as creating rewards, users, etc)
+- `counter-cache` columns for users' redemptions' count, and for rewards' redemptions' count.
+- RSpec tests for the back-end models, controllers & serializers
+- DB indexes & model validations for data integrity
+- Concurrency protection (via db unique indexes, db transactions & pessimistic row locking):
+    - User attempts to redeem multiple rewards with insufficient balance; multi-threaded puma might result in a negative DB balance due to context switches
+    - Assumed user only allowed to redeem each reward once - If user attempts to redeem the same productin multiple windows/threads, it could result in multiple redemptions for the same reward.
+
+## Partial Local Setup
+_use this if you have a running mysql instance_
+
+1. Install ruby 3.3.0 via rbenv:`rbenv install 3.3.0` or rvm: `rvm install 3.3.0`
+2. install gem: `bundle install`
+3. create mysql user on your mysql instance, with username: `root` and password: `password` which has permissions to create a DB
+4. setup the db: `bin/rails db:setup`
+5. run the api/back-end server: `./bin/rails server start &`
+6. run the front-end: `cd frontend && npm install && npm run dev &`
+7. open [http://localhost:4000](http://localhost:4000) to view the app
+
+## Skaffold Setup
 _used to allow running both back-end and front-end via minikube_
 
 1. Ensure you have installed
@@ -12,37 +45,7 @@ _used to allow running both back-end and front-end via minikube_
 2. `colima start --cpu 2 --memory 5`
 3. `minikube start --driver=docker --memory=4800 --cpus=2`
 4. `brew install skaffold`
+5. run `bundle install` as skaffold relies on cached artifacts so it'll use the locally installed gems
 5. Inside project root folder, Run `skaffold dev`
-6. open [http://localhost:3000](http://localhost:3000)
-
-## Partial Local Setup
-_used without kubernetes (k8s) or minikube overhead_
-
-1. Install ruby 3.3.0 via rbenv:`rbenv install 3.3.0` or rvm: `rvm install 3.3.0`
-2. install gem: `bundle install`
-3. setup the db: `bin/rails db:setup`
-4. run the api/back-end server: `bin/rails server start`
-5. run the front-end: `cd frontend && npm install && npm run dev`
-6. access graphql endpoints to add/remove rewards: [http://localhost:3000/graphiql]
-
-
-## Highlights - Tools
-1. **Ruby on Rails API** - back-end
-2. **Devise & Devise-JWT Auth** on the back-end, using JWT for increased security
-3. **REST-ful endpoints for API**
-4. **GraphQL API** - as an **alternative** API for rails back-end, using `graphql` gem
-5. **NextJS Front-end**
-6. React, React Redux, Redux Sagas & Redux Routing in NextJS for **UI**
-7. **TailwindCSS, MaterialUI, emotion** - for front-end css-in-js
-8. **Apollo Studio** - for front-end API
-9. **Docker, Kubernetes & Skaffold** - for local development using realtime updates and production-like containers
-10. **Rspec** for back-end testing
-11. **Front-end testing ommitted** due to time constraints
-
-## Highlights - Architecture
-1. indexes on all DB tables to ensure data integrity
-2. validations on ActiveRecord models to help with error messages and additional data integrity
-3. addressed 2 concurrency issues:
-
-    1. User Redeems the same reward multiple times - could result in the same user redeeming the same reward more than once
-    2. User redeems multiple rewards to bypass 0 balance - concurrency issues could result in a user attempting to redeem multiple rewards really fast with a low balance, tricking the back-end into redeeming beyond 0 balance
+6. open [http://localhost:4000](http://localhost:4000) to view the app
+7. open [http://localhost:3000/graphiql](http://localhost:4000)

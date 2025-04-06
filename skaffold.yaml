@@ -2,22 +2,6 @@ apiVersion: skaffold/v4beta6
 kind: Config
 build:
   artifacts:
-    - image: rails-app  # Matches Kamal’s default image name
-      context: .
-      docker:
-        dockerfile: Dockerfile
-      sync:
-        manual:
-          # Sync Ruby files (models, controllers, etc.) to the container without redeployment
-          - src: 'app/**/*.rb'
-            dest: app  # Syncs to /rails/app
-          - src: 'lib/**/*.rb'
-            dest: lib  # Syncs to /rails/lib
-          - src: 'db/**/*.rb'
-            dest: ./db
-          # TODO: remove this to prevent synching the frontend to the backend pod, while ensuring this path is igored
-          - src: 'frontend/**/*.js'
-            dest: frontend
     - image: web-frontend
       context: ./frontend
       docker:
@@ -38,6 +22,19 @@ build:
             dest: /app/selectors
           - src: 'containers/**/*.js'
             dest: /app/containers
+    - image: rails-app  # Matches Kamal’s default image name
+      context: .
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          # Sync Ruby files (models, controllers, etc.) to the container without redeployment
+          - src: 'app/**/*.rb'
+            dest: app  # Syncs to /rails/app
+          - src: 'lib/**/*.rb'
+            dest: lib  # Syncs to /rails/lib
+          - src: 'db/**/*.rb'
+            dest: ./db
 manifests:
   rawYaml:
     - k8s/backend.yml

@@ -4,8 +4,8 @@ class UsersController < ApplicationController
     render json: { message: "Not implemented" }, status: :not_implemented
   end
 
-  def show
-    # just show user details & balance
+  def info
+    # just show user details for now; different from #show as no id is required, just an auth token
     render json: UserSerializer.new(current_user).serializable_hash
   end
 

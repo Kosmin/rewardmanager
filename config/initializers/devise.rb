@@ -312,8 +312,13 @@ Devise.setup do |config|
   # config.sign_in_after_change_password = true
 
   config.navigational_formats = []  # API-only, no redirects
-  config.jwt do |jwt|
-    jwt.secret = ENV["DEVISE_JWT_SECRET_KEY"] || Rails.application.credentials.secret_key_base # Set in .env
-    jwt.expiration_time = 1.hour.to_i
+  Devise.setup do |config|
+    config.jwt do |jwt|
+      # Ensure a secret is explicitly set
+      jwt.secret = Rails.application.credentials.secret_key_base || "3e5176d49c15ca80a468a4ef2da772e796204cd07caeb938544ced2ec7412fc5ce2f933fb1300e305a23f3b9f07c0bf6907f41a7a8805ba53db60fa8a660dcb8"
+      jwt.dispatch_requests = [ [ "POST", %r{^/api/v1/login$} ] ]
+      jwt.revocation_requests = [ [ "DELETE", %r{^/api/v1/logout$} ] ]
+      jwt.expiration_time = 1.hour.to_i
+    end
   end
 end

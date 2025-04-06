@@ -51,3 +51,7 @@ README.md
 # Ignore testing folders
 /test
 /spec
+
+# Ignore frontend when building the back-end image
+/frontend
+

@@ -1,19 +1,21 @@
-// frontend/containers/AuthContainer.js
 'use client';
 
 import { connect } from 'react-redux';
-import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import { Box, TextField, Button, Typography, Container } from '@mui/material';
+import { useRouterSync } from '@/hooks/useRouterSync';
+import Container from '@mui/material/Container';
+import { Box, TextField, Button, Typography } from '@mui/material';
 import { signUpUser, signInUser } from '@/reducers/auth/index';
 import { emailSelector, passwordSelector, statusSelector, errorSelector, userSelector } from '@/selectors/index';
 
-function AuthContainer({ email, password, status, error, user, updateEmail, updatePassword, signUp, signIn }) {
-  const router = useRouter();
 
+function AuthContainer({
+  email, password, status, error, user, updateEmail, updatePassword, signUp, signIn
+}) {
+  const { navigate } = useRouterSync();
   useEffect(() => {
-    if (user) router.push('/dashboard');
-  }, [user, router]);
+    if (user && user.status == 'succeeded') navigate('/dashboard');
+  }, [user]);
 
   return (
     <Container maxWidth="xs">

@@ -4,7 +4,11 @@ class RewardsController < ApplicationController
   def index
     # Fetch all rewards, including the number of redemptions and users
     @rewards = Reward.includes(:redemptions).order(created_at: :desc)
-    render json: RewardSerializer.new(@rewards).serializable_hash
+    render json: {
+      rewards: RewardSerializer.new(@rewards).serializable_hash,
+      headers: request.headers["Authorization"],
+      user: current_user
+    }
   end
 
   def create

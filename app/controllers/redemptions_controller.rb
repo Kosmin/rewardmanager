@@ -1,6 +1,4 @@
 class RedemptionsController < ApplicationController
-  # before_action :authenticate_user!
-
   before_action :validate_reward_presence, only: [ :create ]
   before_action :validate_sufficient_balance, only: [ :create ]
 

@@ -17,10 +17,11 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins "http://web-frontend-service:4000", "http://localhost:4000", "localhost:0.0.0.0:4000"
+    origins "http://localhost:4000" # Frontend origin
     resource "*",
       headers: :any,
-      methods: [ :get, :post, :put, :patch, :delete, :options ],
-      credentials: true
+      methods: [ :get, :post, :put, :patch, :delete, :options, :head ],
+      expose: [ "Authorization" ],
+      credentials: true # Allow credentials
   end
 end
