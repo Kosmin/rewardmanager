@@ -59,3 +59,18 @@ _used to allow running the db, the back-end and the front-end via minikube, in o
 - realtime file sync updates in skaffold are not always working as expected
 - I thought it'd be cool to have counter_cache columns for how many users claimed a specific reward, and demonstrate how these counters could all be updated in batches with throttling. Didn't have time to finish that, but left the column in
 - I also thought it'd be cool to have expiry on rewards, and run a background job using either solid queue or sidekiq w/ redis based on a cron schedule to expire rewards. I also decided this is probably beyond the scope, but still kept the `expires_at` column on the `rewards` table
+
+# DEMO
+
+## UI interface
+
+
+https://github.com/user-attachments/assets/14dcfd54-6f8f-46a6-9930-245a7d723dc4
+
+
+## GraphiQL Admin Interface
+
+
+
+https://github.com/user-attachments/assets/14583313-6528-4648-af45-3ab75d192546
+
