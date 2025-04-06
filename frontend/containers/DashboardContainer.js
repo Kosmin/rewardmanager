@@ -22,7 +22,7 @@ function DashboardContainer({ user, rewards, loading, error, signOut, redeem }) 
     navigate('/history');
   }
 
-  const signOutUser = () => {
+  const handleSignOut = () => {
     signOut();
     navigate('/auth');
   }
@@ -72,7 +72,7 @@ function DashboardContainer({ user, rewards, loading, error, signOut, redeem }) 
             cursor: 'pointer',
             marginRight: '10px',
           }}
-          onClick={signOutUser}
+          onClick={handleSignOut}
         >
           Sign out
         </button>

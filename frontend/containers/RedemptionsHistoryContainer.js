@@ -6,7 +6,7 @@ import { redeemReward } from '@/reducers/rewards';
 import { signOutUser } from '@/reducers/auth';
 import { userSelector } from '@/selectors';
 
-function RedemptionsHistoryContainer({ user, redemptions, loading, error }) {
+function RedemptionsHistoryContainer({ user, redemptions, loading, error, signOut }) {
   const { navigate } = useRouterSync();
 
   const navigateToDashboard = () => {
@@ -18,8 +18,8 @@ function RedemptionsHistoryContainer({ user, redemptions, loading, error }) {
     return false;
   }
 
-  const signOutUser = () => {
-    signOutUser();
+  const handleSignOut = () => {
+    signOut();
     navigate('/auth');
   }
 
@@ -68,7 +68,7 @@ function RedemptionsHistoryContainer({ user, redemptions, loading, error }) {
             cursor: 'pointer',
             marginRight: '10px',
           }}
-          onClick={signOutUser}
+          onClick={handleSignOut}
         >
           Sign out
         </button>
@@ -112,6 +112,7 @@ const mapStateToProps = (state) => ({
   redemptions: state.redemptions.redemptions, // Assuming redemptions are in rewards slice
   loading: state.rewards.loading,
   error: state.rewards.error,
+  signOut: signOutUser,
 });
 
 export default connect(mapStateToProps)(RedemptionsHistoryContainer);

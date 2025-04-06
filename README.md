@@ -1,6 +1,6 @@
 # README - RewardManager
 
-## Assignment Requirements:
+## Requirements:
 Implement RESTful endpoints for the following:
 - Retrieve a user’s current points balance
 - Get a list of available rewards
@@ -8,7 +8,7 @@ Implement RESTful endpoints for the following:
 - Retrieve a user’s redemption history
 
 ## Bonus Features:
-_given the extra time, I decided to spice up my solution a little bit. Hopefully it's not an issue_
+_given the extra time I was told others may be using, I decided to spice up my solution a little bit. Hopefully it's not an issue_
 
 - UI (fully functioning) - using `NextJS`, `React`, `Redux`, `Redux Sagas`, `Redux & NextJS Routing`
 - Orchestration - using `Docker`, `Kubernetes` and `Skaffold` (for local dev)
