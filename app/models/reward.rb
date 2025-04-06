@@ -5,6 +5,4 @@ class Reward < ApplicationRecord
   validates_presence_of :name
   validates :name, uniqueness: true
   validates :price, numericality: { greater_than_or_equal_to: 0.0 }
-
-  # TODO: user count for reward
 end

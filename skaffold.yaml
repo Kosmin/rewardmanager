@@ -15,6 +15,9 @@ build:
             dest: lib  # Syncs to /rails/lib
           - src: 'db/**/*.rb'
             dest: ./db
+          # TODO: remove this to prevent synching the frontend to the backend pod, while ensuring this path is igored
+          - src: 'frontend/**/*.js'
+            dest: frontend
     - image: web-frontend
       context: ./frontend
       docker:
@@ -23,14 +26,18 @@ build:
         manual:
           # Sync JS files that are updated at runtime, to the container without redeployment
           - src: 'app/**/*.js'
-            dest: app
+            dest: /app/app
           # Same for typescript files
-          - src: 'app/**/*.ts'
-            dest: app
           - src: 'lib/**/*.js'
-            dest: lib
-          - src: 'lib/**/*.ts'
-            dest: lib
+            dest: /app/lib
+          - src: 'reducers/**/*.js'
+            dest: /app/reducers
+          - src: 'sagas/**/*.js'
+            dest: /app/sagas
+          - src: 'selectors/**/*.js'
+            dest: /app/selectors
+          - src: 'containers/**/*.js'
+            dest: /app/containers
 manifests:
   rawYaml:
     - k8s/backend.yml

@@ -16,7 +16,7 @@ Devise.setup do |config|
   # by default. You can change it below and use your own secret key.
   # config.secret_key = 'd673ebba71aad9bc29ce2c36e8c661420c143c99c9de030304083f2264c4888f8455f9cc77e5a9bff5164cde9eb3376c225cb39a82273a87bbcff14fb0c55c27'
 
-  # ==> Controller configuration
+  # ==> Controller configurationUser.new(email: "test@example.com", password: Devise.friendly_token(20))
   # Configure the parent class to the devise controllers.
   # config.parent_controller = 'DeviseController'
 
@@ -313,7 +313,7 @@ Devise.setup do |config|
 
   config.navigational_formats = []  # API-only, no redirects
   config.jwt do |jwt|
-    jwt.secret = ENV["DEVISE_JWT_SECRET_KEY"]  # Set in .env
+    jwt.secret = ENV["DEVISE_JWT_SECRET_KEY"] || Rails.application.credentials.secret_key_base # Set in .env
     jwt.expiration_time = 1.hour.to_i
   end
 end

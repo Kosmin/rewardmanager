@@ -10,12 +10,14 @@
 #
 
 # Create admin user
-User.create(
+admin = User.new(
   email: 'admin@test.com',
   password: 'password',
   points_balance: 10000,
   admin: true,
 )
+
+admin.save!
 
 3.times do |i|
   User.create(

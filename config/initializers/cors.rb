@@ -17,7 +17,10 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins "http://localhost:4000"  # Next.js port
-    resource "*", headers: :any, methods: [ :get, :post, :put, :patch, :delete, :options ], credentials: true
+    origins "http://web-frontend-service:4000", "http://localhost:4000", "localhost:0.0.0.0:4000"
+    resource "*",
+      headers: :any,
+      methods: [ :get, :post, :put, :patch, :delete, :options ],
+      credentials: true
   end
 end

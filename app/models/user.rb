@@ -3,7 +3,7 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
-         :jwt_authenticatable, jwt_revocation_strategy: self
+         :jwt_authenticatable, jwt_revocation_strategy: Devise::JWT::RevocationStrategies::Null
   has_many :redemptions, dependent: :destroy, inverse_of: :user
   has_many :rewards, through: :redemptions
 
@@ -28,13 +28,18 @@ class User < ApplicationRecord
       return nil
     end
 
+    redemption = redemptions.build(reward: reward)
     ActiveRecord::Base.transaction do
       self.lock!
       self.points_balance -= reward.price
-      self.save!
-      self.redemptions.create!(reward: reward)
+      self.save
+      redemption.save
     end
+    redemption
+  end
+
+  # Null revokation strategy for now
+  def jwt_revoked?(_payload, _user)
+    false
   end
 end
-
-# Plan: 1) allow redemptions; 2) create UI; 3) connect front-end to back-end; 4) seed data and test app
