@@ -20,7 +20,7 @@ _given the extra time, I decided to spice up my solution a little bit. Hopefully
 - DB indexes & model validations for data integrity
 - Concurrency protection (via db unique indexes, db transactions & pessimistic row locking):
     - User attempts to redeem multiple rewards with insufficient balance; multi-threaded puma might result in a negative DB balance due to context switches
-    - Assumed user only allowed to redeem each reward once - If user attempts to redeem the same productin multiple windows/threads, it could result in multiple redemptions for the same reward.
+    - I assumed user only allowed to redeem each reward once, which means if the user attempts to redeem the same reward in multiple windows/threads, it could result in multiple redemptions for the same reward.
 
 ## Partial Local Setup
 _use this if you have a running mysql instance_
@@ -53,6 +53,9 @@ _used to allow running the db, the back-end and the front-end via minikube, in o
 ## Limitations
 - front-end code is not build with feature-first or functionality-first folders, could use some cleaning up
 - UI has minimal error handling, no spinners for loading experience, etc.
+- UI also uses some inefficient approaches, such as anonymous functions in render(), no immutable state, routing that results in flickering, etc. Did this on purpose to save a bit of time.
 - back-end controllers use a few `Not Implemented` actions to demonstrate we could build them later, but they're not needed now
 - admin work (i.e. `user create/update/delete`, `reward create/update/delete`, `redemption create/update/delete`) is only possible via rails console or graphiql interface
 - realtime file sync updates in skaffold are not always working as expected
+- I thought it'd be cool to have counter_cache columns for how many users claimed a specific reward, and demonstrate how these counters could all be updated in batches with throttling. Didn't have time to finish that, but left the column in
+- I also thought it'd be cool to have expiry on rewards, and run a background job using either solid queue or sidekiq w/ redis based on a cron schedule to expire rewards. I also decided this is probably beyond the scope, but still kept the `expires_at` column on the `rewards` table
