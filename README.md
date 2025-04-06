@@ -34,7 +34,7 @@ _use this if you have a running mysql instance_
 7. open [http://localhost:4000](http://localhost:4000) to view the app
 
 ## Skaffold Setup
-_used to allow running both back-end and front-end via minikube_
+_used to allow running the db, the back-end and the front-end via minikube, in one command_
 
 1. Ensure you have installed
     * [colima](https://github.com/abiosoft/colima)
@@ -49,3 +49,10 @@ _used to allow running both back-end and front-end via minikube_
 5. Inside project root folder, Run `skaffold dev`
 6. open [http://localhost:4000](http://localhost:4000) to view the app
 7. open [http://localhost:3000/graphiql](http://localhost:4000)
+
+## Limitations
+- front-end code is not build with feature-first or functionality-first folders, could use some cleaning up
+- UI has minimal error handling, no spinners for loading experience, etc.
+- back-end controllers use a few `Not Implemented` actions to demonstrate we could build them later, but they're not needed now
+- admin work (i.e. `user create/update/delete`, `reward create/update/delete`, `redemption create/update/delete`) is only possible via rails console or graphiql interface
+- realtime file sync updates in skaffold are not always working as expected
