@@ -1,7 +1,7 @@
 # README - RewardManager
 
 ## Requirements:
-Implement RESTful endpoints for the following:
+RESTful endpoints for the following:
 - Retrieve a user’s current points balance
 - Get a list of available rewards
 - Allow users to redeem a reward
