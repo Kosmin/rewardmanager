@@ -47,7 +47,7 @@ _used to allow running the db, the back-end and the front-end via minikube, in o
 4. `brew install skaffold`
 5. run `bundle install` as skaffold relies on cached artifacts so it'll use the locally installed gems
 5. Inside project root folder, Run `skaffold dev`
-6. open [http://localhost:4000](http://localhost:4000/auth) to view the app
+6. open [http://localhost:4000/auth](http://localhost:4000/auth) to view the app
 
 ## Limitations
 - front-end code is not build with feature-first or functionality-first folders, could use some cleaning up
