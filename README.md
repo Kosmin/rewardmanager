@@ -31,7 +31,7 @@ _use this if you have a running mysql instance_
 4. setup the db: `bin/rails db:setup`
 5. run the api/back-end server: `./bin/rails server start &`
 6. run the front-end: `cd frontend && npm install && npm run dev &`
-7. open [http://localhost:4000](http://localhost:4000) to view the app
+7. open [http://localhost:4000/auth](http://localhost:4000/auth) to view the app
 
 ## Skaffold Setup
 _used to allow running the db, the back-end and the front-end via minikube, in one command_
@@ -47,8 +47,7 @@ _used to allow running the db, the back-end and the front-end via minikube, in o
 4. `brew install skaffold`
 5. run `bundle install` as skaffold relies on cached artifacts so it'll use the locally installed gems
 5. Inside project root folder, Run `skaffold dev`
-6. open [http://localhost:4000](http://localhost:4000) to view the app
-7. open [http://localhost:3000/graphiql](http://localhost:4000)
+6. open [http://localhost:4000](http://localhost:4000/auth) to view the app
 
 ## Limitations
 - front-end code is not build with feature-first or functionality-first folders, could use some cleaning up
